@@ -41,46 +41,94 @@ ApJ 投稿用の Reference は AAS 公式の AASTeX と BibTeX スタイルで�
 
 ## セットアップ
 
+> **注意:** 以下のコードブロックはそのままターミナルに貼り付けて実行できるよう、行末コメントを付けていません。
+> macOS 標準の zsh は対話モードで `#` をコメントとして扱わないため、`cmd  # 説明` の形で貼り付けると
+> 説明文まで引数として渡されてエラーになります。
+
+### 1. uv のインストール（未導入の場合のみ）
+
+`uv --version` で `command not found: uv` と表示される場合は、次のどちらかでインストールします。
+
 ```bash
-git clone <this repository> paper-navigator && cd paper-navigator
-uv sync                       # uv.lock どおりに依存関係を導入
-cp .env.example .env          # ADS_API_TOKEN= の後にトークンを記入（.env はGit管理外）
-uv run pn init-db             # data/paper_navigator.sqlite3 を作成（マイグレーション適用）
-uv run pytest                 # オフラインテスト（ネットワーク不要、ライブテストは除外）
-./scripts/fetch_aastex.sh     # 任意: AAS公式AASTeX（GitHub、固定コミット）を vendor/aastex/ へ
+brew install uv
 ```
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+インストーラを使った場合は、ターミナルを開き直してから `uv --version` で確認してください。
+
+### 2. 取得と初期化
+
+```bash
+git clone https://github.com/ZundaNoKagaku/Paper-Navigator.git paper-navigator
+cd paper-navigator
+uv sync
+cp .env.example .env
+uv run pn init-db
+uv run pytest
+./scripts/fetch_aastex.sh
+```
+
+| コマンド | 内容 |
+|---|---|
+| `uv sync` | `uv.lock` どおりに依存関係（Python 本体を含む）を導入 |
+| `cp .env.example .env` | 設定ファイルを作成。`ADS_API_TOKEN=` の後にトークンを記入（`.env` は Git 管理外） |
+| `uv run pn init-db` | `data/paper_navigator.sqlite3` を作成（マイグレーション適用） |
+| `uv run pytest` | オフラインテスト（ネットワーク不要、ライブテストは除外） |
+| `./scripts/fetch_aastex.sh` | 任意: AAS 公式 AASTeX（GitHub、固定コミット）を `vendor/aastex/` へ取得 |
 
 ADS トークンは https://ui.adsabs.harvard.edu/user/settings/token で発行します。
 
 ## 起動・停止
 
 ```bash
-uv run pn ui                  # http://127.0.0.1:8501 （既定で 127.0.0.1 のみ待ち受け）
-# 停止: ターミナルで Ctrl+C。データは data/ に残り、再起動後もそのまま使えます。
+uv run pn ui
 ```
+
+ブラウザで http://127.0.0.1:8501 を開きます（既定で 127.0.0.1 のみ待ち受け）。
+停止はターミナルで Ctrl+C。データは `data/` に残り、再起動後もそのまま使えます。
 
 `--address 0.0.0.0` 等で外部公開もできますが、ローカルDBとZoteroへのアクセスがネットワークに
 露出するため警告を表示します。既定のままの利用を推奨します。
 
 ## 使い方（CLI）
 
+**ADS 検索・引用ネットワーク**
+
 ```bash
 uv run pn search "coronal mass ejection" --year-from 2015 --max 20
-uv run pn search 10.1086/146579                       # DOI / Bibcode / arXiv は自動判定
-uv run pn network 1998ApJ...509..678G --direction both --depth 1 --max-papers 300 \
-                  --export-dir data/exports
-uv run pn jobs                                         # 取得履歴（部分成功・打ち切りを表示）
-uv run pn export-graph 3 --year-from 2010              # HTML / JSON / GraphML / CSV
+uv run pn search 10.1086/146579
+uv run pn network 1998ApJ...509..678G --direction both --depth 1 --max-papers 300 --export-dir data/exports
+uv run pn jobs
+uv run pn export-graph 3 --year-from 2010
 uv run pn show 1998ApJ...509..678G
-uv run pn duplicates                                   # 重複候補（自動統合しない）
-uv run pn backup                                       # data/backups/ に DB のコピー
+uv run pn duplicates
+uv run pn backup
+```
 
-uv run pn zotero-status                                # unavailable / local_api_disabled / read_only / ...
+- `search` の引数は DOI / Bibcode / arXiv ID を自動判定します。
+- `jobs` は取得履歴（部分成功・打ち切りを含む）、`export-graph` は HTML / JSON / GraphML / CSV を出力します。
+- `duplicates` は重複候補の表示のみで自動統合はしません。`backup` は `data/backups/` に DB をコピーします。
+
+**Zotero**
+
+```bash
+uv run pn zotero-status
 uv run pn zotero-collections
-uv run pn zotero-sync ABCD1234                          # Zotero は変更せず、照合結果をDBに記録
-uv run pn zotero-authorize                             # Zotero 10+: 書き込み許可ダイアログ
+uv run pn zotero-sync ABCD1234
+uv run pn zotero-authorize
 uv run pn zotero-add 1998ApJ...509..678G --collection ABCD1234
+```
 
+- `zotero-status` は `unavailable` / `local_api_disabled` / `read_only` などの状態を返します。
+- `zotero-sync` は Zotero を変更せず、照合結果を DB に記録します。
+- `zotero-authorize` は Zotero 10+ で書き込み許可ダイアログを出します。
+
+**BibTeX / ApJ**
+
+```bash
 uv run pn bib-check ~/thesis/references.bib --snapshot data/bib_snapshot.json --accept
 uv run pn cite-check ~/thesis/references.bib ~/thesis/main.tex
 uv run pn apj-build examples/apj/sample_apj.tex --bib examples/apj/references.bib
