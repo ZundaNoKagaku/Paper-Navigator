@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+### 修正
+- `pn ui` でブラウザが自動で開かなかった問題（`.streamlit/config.toml` の `server.headless = true` が原因）。
+  headless は維持したまま（Streamlit 初回起動時のメール入力待ちを避けるため）、`/_stcore/health` の応答を確認してから
+  `pn ui` 自身が既定ブラウザを開くようにした。`--no-browser` で無効化できる。
+- README のコマンド例を、zsh（行末 `#` をコメントとして扱わない）にそのまま貼り付けても動く形に変更し、uv の導入手順を追加。
+
 ## [0.1.1] - 2026-11-12 — 仕様書チェックリスト監査に基づく是正
 
 ### 追加
