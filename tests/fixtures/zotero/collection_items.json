@@ -1,0 +1,17 @@
+[
+ {"key": "AAAA1111", "version": 3, "data": {"key": "AAAA1111", "itemType": "journalArticle",
+  "title": "Synthetic paper number 1 on coronal loops",
+  "creators": [{"creatorType": "author", "lastName": "Author1", "firstName": "A."}],
+  "date": "2001", "DOI": "10.5555/TEST.1", "publicationTitle": "J. Synth. Tests",
+  "volume": "1", "pages": "1-9", "citationKey": "author12001", "extra": "", "collections": ["COLL0001"]}},
+ {"key": "BBBB2222", "version": 3, "data": {"key": "BBBB2222", "itemType": "journalArticle",
+  "title": "A different title entirely",
+  "creators": [{"creatorType": "author", "name": "Big Collaboration"}],
+  "date": "2003-05-01", "DOI": "", "publicationTitle": "Journal of Synthetic Tests",
+  "volume": "9", "pages": "3", "extra": "Citation Key: collab2003\nADS Bibcode: 2003TEST....3....3A",
+  "collections": ["COLL0001"]}},
+ {"key": "CCCC3333", "version": 3, "data": {"key": "CCCC3333", "itemType": "journalArticle",
+  "title": "Not in local database", "creators": [], "date": "", "DOI": "10.5555/zzz",
+  "extra": "", "collections": ["COLL0001"]}},
+ {"key": "NOTE0001", "version": 3, "data": {"key": "NOTE0001", "itemType": "note", "note": "x"}}
+]

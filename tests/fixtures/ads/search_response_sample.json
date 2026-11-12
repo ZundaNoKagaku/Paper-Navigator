@@ -1,0 +1,74 @@
+{
+ "_comment": "SYNTHETIC fixture in the documented ADS /search/query response shape (responseHeader + response.numFound/start/docs). Not real ADS data.",
+ "responseHeader": {
+  "status": 0,
+  "QTime": 3,
+  "params": {
+   "q": "title:\"coronal loops\"",
+   "fl": "bibcode,title",
+   "rows": "2",
+   "start": "0"
+  }
+ },
+ "response": {
+  "numFound": 2,
+  "start": 0,
+  "docs": [
+   {
+    "bibcode": "2001TEST....1....1A",
+    "title": [
+     "Synthetic paper number 1 on coronal loops"
+    ],
+    "author": [
+     "Author1, A.",
+     "Second, B."
+    ],
+    "year": "2001",
+    "pub": "Journal of Synthetic Tests",
+    "bibstem": [
+     "JST"
+    ],
+    "volume": "1",
+    "page": [
+     "1"
+    ],
+    "doi": [
+     "10.5555/test.1"
+    ],
+    "identifier": [
+     "2001TEST....1....1A",
+     "10.5555/test.1"
+    ],
+    "abstract": "Synthetic abstract 1.",
+    "doctype": "article"
+   },
+   {
+    "bibcode": "2001TEST....2....2A",
+    "title": [
+     "Synthetic paper number 2 on coronal loops"
+    ],
+    "author": [
+     "Author2, A.",
+     "Second, B."
+    ],
+    "year": "2001",
+    "pub": "Journal of Synthetic Tests",
+    "bibstem": [
+     "JST"
+    ],
+    "volume": "2",
+    "page": [
+     "2"
+    ],
+    "doi": [
+     "10.5555/test.2"
+    ],
+    "identifier": [
+     "2001TEST....2....2A",
+     "10.5555/test.2"
+    ],
+    "doctype": "article"
+   }
+  ]
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "success": true,
+ "clean": true,
+ "pdf": "/tmp/apjfinal/sample_apj.pdf",
+ "bbl": "/tmp/apjfinal/sample_apj.bbl",
+ "class": "vendor/aastex/aastex701.cls",
+ "bst": "vendor/aastex/aasjournalv7.bst",
+ "error": null,
+ "undefined_citations": [],
+ "bibtex_warnings": [],
+ "bibtex_errors": [],
+ "commands": [
+  "pdflatex -interaction=nonstopmode -halt-on-error sample_apj.tex",
+  "bibtex sample_apj",
+  "pdflatex -interaction=nonstopmode -halt-on-error sample_apj.tex",
+  "pdflatex -interaction=nonstopmode -halt-on-error sample_apj.tex"
+ ],
+ "tools": {
+  "pdflatex": "pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian)",
+  "bibtex": "BibTeX 0.99d (TeX Live 2023/Debian)"
+ }
+}

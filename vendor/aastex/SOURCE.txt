@@ -1,0 +1,1 @@
+source=https://github.com/AASJournals/AASTeX7 commit=a22d7494854b19aa1141fa9d35a896e7e1f5a6a8 date=2025-08-27T08:57:50-04:00

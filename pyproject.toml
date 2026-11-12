@@ -1,0 +1,62 @@
+[project]
+name = "paper-navigator"
+version = "0.1.1"
+description = "Local-first citation network and reference management for researchers (NASA ADS + Zotero/Better BibTeX + AASTeX)"
+readme = "README.md"
+authors = [{ name = "Paper Navigator contributors" }]
+requires-python = ">=3.12"
+dependencies = [
+    "bibtexparser>=1.4,<2",
+    "httpx>=0.28.1",
+    "networkx>=3.7",
+    "pyvis>=0.3.2",
+    "sqlalchemy>=2",
+    "streamlit>=1.67.0",
+]
+
+[project.scripts]
+pn = "paper_navigator.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.11.32,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pip-audit>=2.10.1",
+    "pip-licenses>=5.5.5",
+    "pytest>=9.2.0",
+    "ruff>=0.17.4",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live: requires real network access and ADS_API_TOKEN (skipped by default)",
+    "latex: requires pdflatex/bibtex and AASTeX files",
+]
+addopts = "-m 'not live'"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM"]
+ignore = ["S101", "S603", "S607"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106", "S108"]
+# Japanese UI/user messages and the inline HTML/JS template are allowed to be long.
+"src/paper_navigator/errors.py" = ["E501"]
+"src/paper_navigator/graph/view.py" = ["E501"]
+"src/paper_navigator/ui/streamlit_app.py" = ["E501"]
+# requirement table data (Japanese text) in the traceability generator
+"scripts/gen_traceability.py" = ["E501"]
+"scripts/gen_checklist_audit.py" = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+check_untyped_defs = true
